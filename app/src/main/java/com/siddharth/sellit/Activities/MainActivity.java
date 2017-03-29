@@ -1,9 +1,10 @@
-package com.siddharth.sellit;
+package com.siddharth.sellit.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,9 +24,11 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
+import com.siddharth.sellit.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
   public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io";
   public static final String TAG = "REST APPLICATION";
+  public static final String FRAGMENT_TAG = "FRAGMENT TAG";
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -62,34 +67,34 @@ public class MainActivity extends AppCompatActivity
 
 
     textView = (TextView) findViewById(R.id.textView);
-    mFBloginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+//    mFBloginButton = (LoginButton) findViewById(R.id.facebook_login_button);
 
-    mFBloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-    {
-      @Override
-      public void onSuccess(LoginResult loginResult)
-      {
-        String str = "User ID: "
-            + loginResult.getAccessToken().getUserId()
-            + "\n" +
-            "Auth Token: "
-            + loginResult.getAccessToken().getToken();
-//        for(int i = 0; i <= loginResult.getAccessToken().si )
-        textView.setText(str);
-      }
-
-      @Override
-      public void onCancel()
-      {
-        textView.setText("Login attempt canceled.");
-      }
-
-      @Override
-      public void onError(FacebookException error)
-      {
-        textView.setText("Login attempt failed.");
-      }
-    });
+//    mFBloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+//    {
+//      @Override
+//      public void onSuccess(LoginResult loginResult)
+//      {
+//        String str = "User ID: "
+//            + loginResult.getAccessToken().getUserId()
+//            + "\n" +
+//            "Auth Token: "
+//            + loginResult.getAccessToken().getToken();
+////        for(int i = 0; i <= loginResult.getAccessToken().si )
+//        textView.setText(str);
+//      }
+//
+//      @Override
+//      public void onCancel()
+//      {
+//        textView.setText("Login attempt canceled.");
+//      }
+//
+//      @Override
+//      public void onError(FacebookException error)
+//      {
+//        textView.setText("Login attempt failed.");
+//      }
+//    });
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -115,6 +120,11 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
     // download all items from the server
     getAllItems();
+
+////    call the all items fragment to show all the items
+//    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//    ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
+//    ft.commit();
   }
 
   @Override
@@ -151,6 +161,10 @@ public class MainActivity extends AppCompatActivity
         if (response.isSuccessful())
         {
           Log.e(TAG, "SUCCESS !!! ");
+//          call the all items fragment to show all the items
+          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+          ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
+          ft.commit();
         }
 
         //downloadAndShowFirstPicture();
@@ -162,6 +176,7 @@ public class MainActivity extends AppCompatActivity
         // Log error here since request failed
         Log.e(TAG, "FAIL  = " + call.toString());
         t.printStackTrace();
+        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
       }
     });
   }
