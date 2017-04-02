@@ -83,14 +83,14 @@ public class Item
     this.status = status;
   }
 
-  public MyImage getImage()
+  public String getImage()
   {
-    return image;
+    return image.url;
   }
 
-  public void setImage(MyImage image)
+  public void setImage(String url)
   {
-    this.image = image;
+    this.image.url = url;
   }
 
   public String getEmail()
@@ -165,9 +165,9 @@ public class Item
 
 
   public class MyImage{
-    private String imgURL;
-      public MyImage(String imgURL){
-        this.imgURL = imgURL;
+    private String url;
+      public MyImage(String url){
+        this.url = url;
       }
   }
 }

@@ -9,88 +9,159 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/imageCard">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <ImageView
                 android:id="@+id/card_imageView"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:scaleType="fitCenter"
+                android:layout_height="180dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 app:srcCompat="?android:attr/fingerprintAuthDrawable"/>
 
-            <View
-            android:layout_margin="10dp"
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageCard"
+        android:layout_margin="10dp">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/card_imageView"
-            android:background="#000000"/>
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/card_title_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_imageView"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="38dp"
-                android:text="Title:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="25dp">
 
-            <TextView
-                android:id="@+id/card_description_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_title_textView"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="25dp"
-                android:text="Description: "/>
+                <TextView
+                    android:id="@+id/card_title_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_imageView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="28dp"
+                    android:text="Title:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
-            <TextView
-                android:id="@+id/card_price_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_description_textView"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="45dp"
-                android:text="Price:"/>
+                <TextView
+                    android:id="@+id/card_description_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_title_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Description: "/>
 
-            <TextView
-                android:id="@+id/card_price_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_description_textView"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="45dp"
-                android:text="Price:"/>
+                <TextView
+                    android:id="@+id/card_price_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_description_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="45dp"
+                    android:text="Price:"/>
 
-            <TextView
-                android:id="@+id/card_category_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/card_description_textView"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="75dp"
-                android:text="Category:"/>
+                <TextView
+                    android:id="@+id/card_price_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_description_textView"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="45dp"
+                    android:text="Price:"/>
 
-            <TextView
-                android:id="@+id/card_category_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@id/card_category_label"
-                android:layout_below="@id/card_price_textView"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="12dp"
-                android:text="Category:"/>
+                <TextView
+                    android:id="@+id/card_category_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_description_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="75dp"
+                    android:text="Category:"/>
 
+                <TextView
+                    android:id="@+id/card_category_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/card_category_label"
+                    android:layout_below="@id/card_price_textView"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Category:"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/card_email_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_category_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Email:"/>
 
+                <TextView
+                    android:id="@+id/card_email_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/card_category_label"
+                    android:layout_below="@id/card_category_textView"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Email:"/>
+
+                <TextView
+                    android:id="@+id/card_phone_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_email_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Phone:"/>
+
+                <TextView
+                    android:id="@+id/card_phone_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/card_category_label"
+                    android:layout_below="@id/card_email_textView"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Phone:"/>
+
+                <TextView
+                    android:id="@+id/card_location_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_phone_textView"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Location:"/>
+
+                <TextView
+                    android:id="@+id/card_location_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/card_category_label"
+                    android:layout_below="@id/card_phone_textView"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Location:"/>
+
+            </RelativeLayout>
+        </ScrollView>
 
     </android.support.v7.widget.CardView>
 </RelativeLayout>

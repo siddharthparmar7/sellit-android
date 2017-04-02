@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.siddharth.sellit.Adapter.AllItemsAdapter;
 import com.siddharth.sellit.Activities.MainActivity;
+import com.siddharth.sellit.EventBus.GlobalBus;
 import com.siddharth.sellit.Model.Item;
 import com.siddharth.sellit.R;
 

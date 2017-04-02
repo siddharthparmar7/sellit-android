@@ -9,19 +9,6 @@
     tools:context="com.siddharth.sellit.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<TextView-->
-        <!--android:id="@+id/textView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Hello World!"/>-->
-
-    <!--<com.facebook.login.widget.LoginButton-->
-        <!--android:id="@+id/facebook_login_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:text="Continue With FaceBook"/>-->
-
     <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"

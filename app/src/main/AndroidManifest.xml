@@ -32,7 +32,12 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name=".Activities.ItemCard">
+        <activity
+            android:name=".Activities.ItemCard"
+            android:parentActivityName=".Activities.MainActivity">
+        </activity>
+        <activity android:name=".Activities.AddItem"
+            android:parentActivityName=".Activities.MainActivity">
         </activity>
     </application>
 

@@ -14,10 +14,17 @@ import android.widget.TextView;
 
 import com.siddharth.sellit.Activities.ItemCard;
 import com.siddharth.sellit.Activities.MainActivity;
+import com.siddharth.sellit.EventBus.Events;
+import com.siddharth.sellit.EventBus.GlobalBus;
 import com.siddharth.sellit.Model.Item;
+import com.siddharth.sellit.Network.MyPicaso;
 import com.siddharth.sellit.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Sid on 2017-03-29.
@@ -28,6 +35,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
   private LayoutInflater inflater;
   private Context context;
   public List<Item> itemList;
+  private String TAG = "MY_DEBUG";
 
   public AllItemsAdapter(Context context)
   {
@@ -46,17 +54,16 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
   @Override
   public void onBindViewHolder(ItemHolder holder, int position)
   {
-
     Item item = itemList.get(position);
     holder.item_title.setText(item.getTitle());
     holder.item_description.setText("Description: " + item.getDescription());
     holder.item_price.setText("CAD " + item.getPrice());
+    holder.downloadAndShowPicture(position, holder.item_image);
   }
 
   @Override
   public int getItemCount()
   {
-    Log.d("MYDEBIG", "" + itemList.size());
     return itemList.size();
   }
 
@@ -87,11 +94,32 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
       int pos = getAdapterPosition();
       if(view.getId() == item.getId())
       {
+        Events.FragmentToActivityMessage fragmentToActivityMessage = new Events.FragmentToActivityMessage(pos);
+//        fragmentToActivityMessage
+        EventBus.getDefault().postSticky(fragmentToActivityMessage);
         Intent intent = new Intent(context, ItemCard.class);
-        intent.putExtra(ItemCard.ID,itemList.get(pos).getId());
-        intent.putExtra(ItemCard.POSITION, "" + pos);
         ((Activity)context).startActivity(intent);
+
+
       }
     }
+
+
+
+    /////////////////////  START - Download Picture /////////////////////////////////
+
+  public void downloadAndShowPicture(int pos, ImageView imageView)
+  {
+    String imageUri = MainActivity.BASE_URL + itemList.get(pos).getImage();
+
+    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(200, 200).
+        centerCrop().error(R.drawable.ic_menu_camera).into(imageView);
+
+//    Log.e("MY_DEBUG", "Image URL  = " + imageUri);
   }
+    /////////////////////  END - Download Picture /////////////////////////////////
+  }
+
+
+
 }

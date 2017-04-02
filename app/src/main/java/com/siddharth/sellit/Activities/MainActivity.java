@@ -28,6 +28,7 @@ import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
+import com.siddharth.sellit.Network.MyPicaso;
 import com.siddharth.sellit.R;
 
 import java.util.ArrayList;
@@ -105,8 +106,11 @@ public class MainActivity extends AppCompatActivity
       @Override
       public void onClick(View view)
       {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
+//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//            .setAction("Action", null).show();
+        Intent intent = new Intent(getApplicationContext(), AddItem.class);
+        startActivity(intent);
+
       }
     });
 
@@ -120,11 +124,6 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
     // download all items from the server
     getAllItems();
-
-////    call the all items fragment to show all the items
-//    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//    ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
-//    ft.commit();
   }
 
   @Override
@@ -150,13 +149,6 @@ public class MainActivity extends AppCompatActivity
         int statusCode = response.code();
         itemList = response.body();
         Log.d("MYDEBUG", "" + statusCode);
-        Item item = itemList.get(0);
-        Log.e(TAG, "Article 0 ID = " + item.getId());
-        Log.e(TAG, "Article 0 Author = " + item.getTitle());
-        Log.e(TAG, "Article 0 Title = " + item.getCategory());
-        Log.e(TAG, "Article 0 Image URL = " + item.getPhone_number());
-//
-//        Log.e(TAG, "Number of Articles = " + clubs.size());
 
         if (response.isSuccessful())
         {
@@ -182,6 +174,23 @@ public class MainActivity extends AppCompatActivity
   }
   /////////////////////   END - GET ALL ARTICLES /////////////////////////////////////////////
 
+  /////////////////////  START - Download Picture /////////////////////////////////
+//  public void buttonDownloadPictureClicked(View view)
+//  {
+//    downloadAndShowFirstPicture();
+//  }
+//
+//  public void downloadAndShowFirstPicture()
+//  {
+//    getAllItems();
+//    String imageUri = MainActivity.BASE_URL + "myupload" + itemList.get(0).getUrl();
+//
+//    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(200, 200).
+//        centerCrop().error(R.drawable.ic_menu_camera).into(firstImage);
+//
+//    Log.e(TAG, "Image URL  = " + imageUri);
+//  }
+  /////////////////////  END - Download Picture /////////////////////////////////
 
   @Override
   public void onBackPressed()
