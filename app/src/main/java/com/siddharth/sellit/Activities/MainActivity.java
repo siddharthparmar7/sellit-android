@@ -3,7 +3,6 @@ package com.siddharth.sellit.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -19,16 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
-import com.siddharth.sellit.Network.MyPicaso;
 import com.siddharth.sellit.R;
 
 import java.util.ArrayList;
@@ -68,34 +63,6 @@ public class MainActivity extends AppCompatActivity
 
 
     textView = (TextView) findViewById(R.id.textView);
-//    mFBloginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-
-//    mFBloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-//    {
-//      @Override
-//      public void onSuccess(LoginResult loginResult)
-//      {
-//        String str = "User ID: "
-//            + loginResult.getAccessToken().getUserId()
-//            + "\n" +
-//            "Auth Token: "
-//            + loginResult.getAccessToken().getToken();
-////        for(int i = 0; i <= loginResult.getAccessToken().si )
-//        textView.setText(str);
-//      }
-//
-//      @Override
-//      public void onCancel()
-//      {
-//        textView.setText("Login attempt canceled.");
-//      }
-//
-//      @Override
-//      public void onError(FacebookException error)
-//      {
-//        textView.setText("Login attempt failed.");
-//      }
-//    });
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -108,7 +75,8 @@ public class MainActivity extends AppCompatActivity
       {
 //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //            .setAction("Action", null).show();
-        Intent intent = new Intent(getApplicationContext(), AddItem.class);
+
+        Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
 
       }
@@ -173,24 +141,6 @@ public class MainActivity extends AppCompatActivity
     });
   }
   /////////////////////   END - GET ALL ARTICLES /////////////////////////////////////////////
-
-  /////////////////////  START - Download Picture /////////////////////////////////
-//  public void buttonDownloadPictureClicked(View view)
-//  {
-//    downloadAndShowFirstPicture();
-//  }
-//
-//  public void downloadAndShowFirstPicture()
-//  {
-//    getAllItems();
-//    String imageUri = MainActivity.BASE_URL + "myupload" + itemList.get(0).getUrl();
-//
-//    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(200, 200).
-//        centerCrop().error(R.drawable.ic_menu_camera).into(firstImage);
-//
-//    Log.e(TAG, "Image URL  = " + imageUri);
-//  }
-  /////////////////////  END - Download Picture /////////////////////////////////
 
   @Override
   public void onBackPressed()

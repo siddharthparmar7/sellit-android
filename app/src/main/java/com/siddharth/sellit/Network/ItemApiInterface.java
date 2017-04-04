@@ -18,6 +18,9 @@ public interface ItemApiInterface
 {
   @GET("/items.json")
   Call<List<Item>> getAllItems();
+
+  @POST("/")
+  Call<List<Item>> deleteItem();
 //
 //  @Multipart
   //@POST("myupload/articles/create.json")

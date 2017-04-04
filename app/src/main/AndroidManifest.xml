@@ -36,8 +36,11 @@
             android:name=".Activities.ItemCard"
             android:parentActivityName=".Activities.MainActivity">
         </activity>
+        <activity
+            android:name=".Activities.Login">
+        </activity>
         <activity android:name=".Activities.AddItem"
-            android:parentActivityName=".Activities.MainActivity">
+                  android:parentActivityName=".Activities.MainActivity">
         </activity>
     </application>
 

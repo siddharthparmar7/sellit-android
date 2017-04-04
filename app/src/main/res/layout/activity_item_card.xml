@@ -160,6 +160,22 @@
                     android:layout_marginTop="15dp"
                     android:text="Location:"/>
 
+                <Button
+                    android:id="@+id/delete_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_location_textView"
+                    android:layout_marginStart="40dp"
+                    android:text="Delete"/>
+
+                <Button
+                    android:id="@+id/update_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_location_textView"
+                    android:layout_marginStart="200dp"
+                    android:text="update"/>
+
             </RelativeLayout>
         </ScrollView>
 
