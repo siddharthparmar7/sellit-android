@@ -22,6 +22,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
+import com.siddharth.sellit.Model.UserLogInResponse;
+import com.siddharth.sellit.Model.UserLogin;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
 import com.siddharth.sellit.R;
@@ -41,8 +43,10 @@ public class MainActivity extends AppCompatActivity
   private LoginButton mFBloginButton;
   private CallbackManager callbackManager;
   public static List<Item> itemList = new ArrayList<Item>();
+  public static List<UserLogin> userLogInResponse = new ArrayList<UserLogin>();
 
-  public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io";
+//  public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io/";
+  public static final String BASE_URL = "http://10.0.2.2:3000/";
   public static final String TAG = "REST APPLICATION";
   public static final String FRAGMENT_TAG = "FRAGMENT TAG";
 
@@ -106,39 +110,64 @@ public class MainActivity extends AppCompatActivity
 
     ItemApiInterface apiService = ItemRestService.getItemRestService();
 
+    final UserLogin userLogin = new UserLogin();
+//    userLogin.setAuthenticity_token("5zpSWXPWqutS9GTcXFK08mx3gl/RRM8MVsr3qI6te0V5hTUsGMYMKo1QoyQRm9UlnkPmxohW/tc+p6FRG8YCpQ==");
+//    userLogin.setEmail("a@a.com");
+//    userLogin.setPassword("hi");
 
-    final Call<List<Item>> items = apiService.getAllItems();
-    items.enqueue(new Callback<List<Item>>()
+    final Call<List<UserLogin>> userLogInResponse = apiService.login();
+
+    userLogInResponse.enqueue(new Callback<List<UserLogin>>()
     {
-
       @Override
-      public void onResponse(Call<List<Item>> call, Response<List<Item>> response)
+      public void onResponse(Call<List<UserLogin>> call, Response<List<UserLogin>> response)
       {
-        int statusCode = response.code();
-        itemList = response.body();
-        Log.d("MYDEBUG", "" + statusCode);
+        int responseCode = response.code();
+        Log.d(TAG, "" + responseCode);
 
-        if (response.isSuccessful())
-        {
-          Log.e(TAG, "SUCCESS !!! ");
-//          call the all items fragment to show all the items
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-          ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
-          ft.commit();
-        }
-
-        //downloadAndShowFirstPicture();
+//        userLogin
       }
 
       @Override
-      public void onFailure(Call<List<Item>> call, Throwable t)
+      public void onFailure(Call<List<UserLogin>> call, Throwable t)
       {
-        // Log error here since request failed
-        Log.e(TAG, "FAIL  = " + call.toString());
-        t.printStackTrace();
-        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
+
       }
     });
+
+
+
+
+//    final Call<List<Item>> items = apiService.getAllItems();
+//    items.enqueue(new Callback<List<Item>>()
+//    {
+//
+//      @Override
+//      public void onResponse(Call<List<Item>> call, Response<List<Item>> response)
+//      {
+//        int statusCode = response.code();
+//        itemList = response.body();
+//        Log.d("MYDEBUG", "" + statusCode);
+//
+//        if (response.isSuccessful())
+//        {
+//          Log.e(TAG, "SUCCESS !!! ");
+////          call the all items fragment to show all the items
+//          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//          ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
+//          ft.commit();
+//        }
+//      }
+//
+//      @Override
+//      public void onFailure(Call<List<Item>> call, Throwable t)
+//      {
+//        // Log error here since request failed
+//        Log.e(TAG, "FAIL  = " + call.toString());
+//        t.printStackTrace();
+//        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
+//      }
+//    });
   }
   /////////////////////   END - GET ALL ARTICLES /////////////////////////////////////////////
 

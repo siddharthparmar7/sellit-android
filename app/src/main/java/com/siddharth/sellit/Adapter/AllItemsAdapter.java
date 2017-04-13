@@ -99,8 +99,6 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
         EventBus.getDefault().postSticky(fragmentToActivityMessage);
         Intent intent = new Intent(context, ItemCard.class);
         ((Activity)context).startActivity(intent);
-
-
       }
     }
 

@@ -4,6 +4,7 @@ import com.siddharth.sellit.Activities.MainActivity;
 
 import java.io.IOException;
 
+import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,14 +31,18 @@ public class ItemRestService
 
 
     // Define the interceptor, add authentication headers
-//    final String credential = Credentials.basic("nicnic", "imgimg");
+//    final String credential = Credentials.basic("a@a.com", "hi");
     Interceptor interceptor = new Interceptor()
     {
       @Override
       public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException
       {
         Request newRequest = chain.request().newBuilder()
+//            .header("Authorization", credential)
             .header("Accept", "application/json")
+            .header("authenticity_token", "WvZqupaxCrhqouCSqVeUmnUe4DZl1zhxOeRyjhBWjmz4zJZtrPb/hbnNvQKVmXw6o/Nplva4aEGSzejqRnucCw==")
+            .header("user[email]", "a@a.com")
+            .header("user[password]", "hi")
             .addHeader("User-Agent", "Retrofit-2-PS")
             .build();
         return chain.proceed(newRequest);

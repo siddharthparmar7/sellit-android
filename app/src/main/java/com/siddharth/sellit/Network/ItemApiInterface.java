@@ -2,6 +2,7 @@ package com.siddharth.sellit.Network;
 
 
 import com.siddharth.sellit.Model.Item;
+import com.siddharth.sellit.Model.UserLogin;
 
 import java.util.List;
 
@@ -16,8 +17,11 @@ import retrofit2.http.POST;
 
 public interface ItemApiInterface
 {
-  @GET("/items.json")
+  @GET("items.json")
   Call<List<Item>> getAllItems();
+
+  @POST("users/sign_in.json")
+  Call<List<UserLogin>> login();
 
   @POST("/")
   Call<List<Item>> deleteItem();
