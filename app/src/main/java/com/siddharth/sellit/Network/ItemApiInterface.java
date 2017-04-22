@@ -2,19 +2,15 @@ package com.siddharth.sellit.Network;
 
 
 import com.siddharth.sellit.Model.Item;
-import com.siddharth.sellit.Model.UserLogInResponse;
-import com.siddharth.sellit.Model.UserLogin;
 
 import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 
 /**
@@ -35,8 +31,11 @@ public interface ItemApiInterface
   @GET("items.json")
   Call<List<Item>> getAllItems();
 
-  @POST("api/sign_in")
+  @POST("api/sign-in")
   Call<HashMap<String, String>> signIn(@Body HashMap<String, HashMap<String, String>> params);
+
+  @DELETE("api/sign-out")
+  Call signOut();
 
   @POST("/")
   Call<List<Item>> deleteItem();

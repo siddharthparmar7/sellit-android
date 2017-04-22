@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Login extends AppCompatActivity
+public class FaceBookLogin extends AppCompatActivity
 {
   private TextView textView;
   private LoginButton mFBloginButton;
@@ -94,13 +94,13 @@ public class Login extends AppCompatActivity
       @Override
       public void onCancel()
       {
-        textView.setText("Login attempt canceled.");
+        textView.setText("FaceBookLogin attempt canceled.");
       }
 
       @Override
       public void onError(FacebookException error)
       {
-        textView.setText("Login attempt failed.");
+        textView.setText("FaceBookLogin attempt failed.");
       }
     });
   }

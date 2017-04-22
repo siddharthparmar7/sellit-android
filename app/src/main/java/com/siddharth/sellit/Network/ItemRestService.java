@@ -20,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ItemRestService
 {
   //  public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io/";
-    public static final String BASE_URL = "http://auth-custom-devise-siddharthparmar7.c9users.io/";
-//  public static final String BASE_URL = "http://10.0.2.2:3000/";
+//    public static final String BASE_URL = "http://auth-custom-devise-siddharthparmar7.c9users.io/";
+  public static final String BASE_URL = "http://10.0.2.2:3000/";
   private static ItemApiInterface apiService = null;
 
   private ItemRestService() {};

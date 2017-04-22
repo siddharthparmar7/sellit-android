@@ -22,8 +22,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
-import com.siddharth.sellit.Model.UserLogInResponse;
-import com.siddharth.sellit.Model.UserLogin;
+import com.siddharth.sellit.Model.User;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
 import com.siddharth.sellit.R;
@@ -43,8 +42,8 @@ public class MainActivity extends AppCompatActivity
   private TextView textView;
   private LoginButton mFBloginButton;
   private CallbackManager callbackManager;
+  private User activeUser = UserLogin.activeUser;
   public static List<Item> itemList = new ArrayList<Item>();
-  public static List<UserLogin> userLogin = new ArrayList<UserLogin>();
 
   public static final String TAG = "REST APPLICATION";
   public static final String FRAGMENT_TAG = "FRAGMENT TAG";
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity
 //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //            .setAction("Action", null).show();
 
-        Intent intent = new Intent(getApplicationContext(), Login.class);
+        Intent intent = new Intent(getApplicationContext(), FaceBookLogin.class);
         startActivity(intent);
 
       }
@@ -93,8 +92,22 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
     // download all items from the server
-    getAllItems();
+
+    if(activeUser.isUser_logged_in())
+    {
+//      start the fragment and show the items
+      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
+      ft.commit();
+      getAllItems();
+    }
+    else{
+      //    Start Login Activity
+      Intent intent = new Intent(this, UserLogin.class);
+      startActivity(intent);
+    }
   }
 
   @Override
@@ -107,78 +120,36 @@ public class MainActivity extends AppCompatActivity
   public void getAllItems()
   {
     ItemApiInterface apiService = ItemRestService.getItemRestService();
-    HashMap<String,HashMap<String,String>> params = new HashMap<>();
-    HashMap<String,String> credentials = new HashMap<>();
-    credentials.put("email", "a@a.com");
-    credentials.put("password", "hi");
-    params.put("user_login", credentials);
+    final Call<List<Item>> items = apiService.getAllItems();
+    items.enqueue(new Callback<List<Item>>()
+    {
 
-    Call<HashMap<String, String>> call = apiService.signIn(params);
-    call.enqueue(new Callback<HashMap<String, String>>()
-                 {
-                   @Override
-                   public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response)
-                   {
+      @Override
+      public void onResponse(Call<List<Item>> call, Response<List<Item>> response)
+      {
+        int statusCode = response.code();
+        itemList = response.body();
+        Log.d("MYDEBUG", "" + statusCode);
 
-                     int statusCode = response.code();
-                     HashMap<String, String> body = response.body();
-                     Log.d(TAG,"hn,kjlhkuhj" );
-                     Log.d(TAG,"" + response.headers() + " " + response.code());
-                     if (response.isSuccessful())
-                     {
-                       Log.d(TAG, "code = " + Integer.toString(statusCode));
-                       Log.d(TAG, "auth_token = " + body.get("auth_token"));
-                       Log.d(TAG, "user_id = " + body.get("user_id"));
-//                       mUser.setAuthToken(body.get("auth_token"));
-//                       mUser.setEmail(email);
-                       Toast.makeText(getApplicationContext(), "Login successful!",Toast.LENGTH_SHORT).show();
-//                       startMainActivity();
-                     }
-                     else
-                     {
-                       Toast.makeText(getApplicationContext(), "Login failed: " + Integer.toString(statusCode), Toast.LENGTH_SHORT).show();
-                     }
-                   }
+        if (response.isSuccessful())
+        {
+          Log.e(TAG, "SUCCESS !!! ");
+//          call the all items fragment to show all the items
+          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+          ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
+          ft.commit();
+        }
+      }
 
-                   @Override
-                   public void onFailure(Call<HashMap<String, String>> call, Throwable t)
-                   {
-                     Log.d(TAG, t.getLocalizedMessage());
-                   }
-
-                 });
-
-
-//    final Call<List<Item>> items = apiService.getAllItems();
-//    items.enqueue(new Callback<List<Item>>()
-//    {
-//
-//      @Override
-//      public void onResponse(Call<List<Item>> call, Response<List<Item>> response)
-//      {
-//        int statusCode = response.code();
-//        itemList = response.body();
-//        Log.d("MYDEBUG", "" + statusCode);
-//
-//        if (response.isSuccessful())
-//        {
-//          Log.e(TAG, "SUCCESS !!! ");
-////          call the all items fragment to show all the items
-//          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//          ft.replace(R.id.fragment, new AllItemsFragment(), FRAGMENT_TAG);
-//          ft.commit();
-//        }
-//      }
-//
-//      @Override
-//      public void onFailure(Call<List<Item>> call, Throwable t)
-//      {
-//        // Log error here since request failed
-//        Log.e(TAG, "FAIL  = " + call.toString());
-//        t.printStackTrace();
-//        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
-//      }
-//    });
+      @Override
+      public void onFailure(Call<List<Item>> call, Throwable t)
+      {
+        // Log error here since request failed
+        Log.e(TAG, "FAIL  = " + call.toString());
+        t.printStackTrace();
+        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
+      }
+    });
   }
   /////////////////////   END - GET ALL ARTICLES /////////////////////////////////////////////
 
