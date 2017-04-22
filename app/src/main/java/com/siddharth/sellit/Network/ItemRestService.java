@@ -1,5 +1,7 @@
 package com.siddharth.sellit.Network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.siddharth.sellit.Activities.MainActivity;
 
 import java.io.IOException;
@@ -17,7 +19,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ItemRestService
 {
-  //private static ArticleRestService restClient = null;
+  //  public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io/";
+    public static final String BASE_URL = "http://auth-custom-devise-siddharthparmar7.c9users.io/";
+//  public static final String BASE_URL = "http://10.0.2.2:3000/";
   private static ItemApiInterface apiService = null;
 
   private ItemRestService() {};
@@ -37,15 +41,7 @@ public class ItemRestService
       @Override
       public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException
       {
-        Request newRequest = chain.request().newBuilder()
-//            .header("Authorization", credential)
-            .header("Accept", "application/json")
-            .header("authenticity_token", "WvZqupaxCrhqouCSqVeUmnUe4DZl1zhxOeRyjhBWjmz4zJZtrPb/hbnNvQKVmXw6o/Nplva4aEGSzejqRnucCw==")
-            .header("user[email]", "a@a.com")
-            .header("user[password]", "hi")
-            .addHeader("User-Agent", "Retrofit-2-PS")
-            .build();
-        return chain.proceed(newRequest);
+        return chain.proceed(chain.request().newBuilder().build());
       }
     };
 
@@ -54,9 +50,12 @@ public class ItemRestService
     builder.interceptors().add(interceptor);
     OkHttpClient client = builder.build();
 
+
+
     // Create Retrofit connection
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(MainActivity.BASE_URL)
+        .baseUrl(BASE_URL)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 

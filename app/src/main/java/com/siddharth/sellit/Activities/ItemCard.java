@@ -96,9 +96,9 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
     phone.setText(item.getPhone_number());
     location.setText(item.getLocation());
 
-    String imageUri = MainActivity.BASE_URL + itemList.get(pos).getImage();
+//    String imageUri = BASE_URL + itemList.get(pos).getImage();
 
-    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
+//    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
   }
 
   @Override

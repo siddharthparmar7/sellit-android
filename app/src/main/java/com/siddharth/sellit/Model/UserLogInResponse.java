@@ -6,8 +6,46 @@ package com.siddharth.sellit.Model;
 
 public class UserLogInResponse
 {
+//  private String email;
+//  private String token;
+//
+//  public String getEmail()
+//  {
+//    return email;
+//  }
+//
+//  public void setEmail(String email)
+//  {
+//    this.email = email;
+//  }
+//
+//  public String getToken()
+//  {
+//    return token;
+//  }
+//
+//  public void setToken(String token)
+//  {
+//    this.token = token;
+//  }
+
+  private UserLogin user_login;
+
+  public UserLogin getUser_login()
+  {
+    return user_login;
+  }
+
+  public void setUser_login(UserLogin user_login)
+  {
+    this.user_login = user_login;
+  }
+
+}
+
+class User_login{
   private String email;
-  private String token;
+  private String password;
 
   public String getEmail()
   {
@@ -19,14 +57,14 @@ public class UserLogInResponse
     this.email = email;
   }
 
-  public String getToken()
+  public String getPassword()
   {
-    return token;
+    return password;
   }
 
-  public void setToken(String token)
+  public void setPassword(String password)
   {
-    this.token = token;
+    this.password = password;
   }
 
 }

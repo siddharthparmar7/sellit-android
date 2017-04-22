@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity
       @Override
       public void onSuccess(LoginResult loginResult)
       {
-        String str = "User ID: "
+        final String str = "User ID: "
             + loginResult.getAccessToken().getUserId()
             + "\n" +
             "Auth Token: "
@@ -72,10 +72,12 @@ public class Login extends AppCompatActivity
 
                   email = object.getString("email");
                   Log.v("Email = ", " " + email);
+                  Log.d("Token", str);
+                  textView.setText(str);
                   Toast.makeText(getApplicationContext(), "Welcome " + name, Toast.LENGTH_LONG).show();
 
-                  Intent intent = new Intent(getApplicationContext(), AddItem.class);
-                  startActivity(intent);
+//                  Intent intent = new Intent(getApplicationContext(), AddItem.class);
+//                  startActivity(intent);
 
                 } catch (JSONException e) {
                   e.printStackTrace();

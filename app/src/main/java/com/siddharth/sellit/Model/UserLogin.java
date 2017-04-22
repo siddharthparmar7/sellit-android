@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class UserLogin
 {
-//  private Map<String, String> = new HashMap<>
 
   private String authenticity_token;
   private String email;

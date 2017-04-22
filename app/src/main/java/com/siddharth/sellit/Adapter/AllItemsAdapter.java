@@ -108,10 +108,10 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
 
   public void downloadAndShowPicture(int pos, ImageView imageView)
   {
-    String imageUri = MainActivity.BASE_URL + itemList.get(pos).getImage();
+//    String imageUri = MainActivity.BASE_URL + itemList.get(pos).getImage();
 
-    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(200, 200).
-        centerCrop().error(R.drawable.ic_menu_camera).into(imageView);
+//    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(200, 200).
+//        centerCrop().error(R.drawable.ic_menu_camera).into(imageView);
 
 //    Log.e("MY_DEBUG", "Image URL  = " + imageUri);
   }

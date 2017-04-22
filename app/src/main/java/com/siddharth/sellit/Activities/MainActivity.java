@@ -29,6 +29,7 @@ import com.siddharth.sellit.Network.ItemRestService;
 import com.siddharth.sellit.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,10 +44,8 @@ public class MainActivity extends AppCompatActivity
   private LoginButton mFBloginButton;
   private CallbackManager callbackManager;
   public static List<Item> itemList = new ArrayList<Item>();
-  public static List<UserLogin> userLogInResponse = new ArrayList<UserLogin>();
+  public static List<UserLogin> userLogin = new ArrayList<UserLogin>();
 
-//  public static final String BASE_URL = "https://sell-it-siddharthparmar7.c9users.io/";
-  public static final String BASE_URL = "http://10.0.2.2:3000/";
   public static final String TAG = "REST APPLICATION";
   public static final String FRAGMENT_TAG = "FRAGMENT TAG";
 
@@ -107,35 +106,47 @@ public class MainActivity extends AppCompatActivity
 
   public void getAllItems()
   {
-
     ItemApiInterface apiService = ItemRestService.getItemRestService();
+    HashMap<String,HashMap<String,String>> params = new HashMap<>();
+    HashMap<String,String> credentials = new HashMap<>();
+    credentials.put("email", "a@a.com");
+    credentials.put("password", "hi");
+    params.put("user_login", credentials);
 
-    final UserLogin userLogin = new UserLogin();
-//    userLogin.setAuthenticity_token("5zpSWXPWqutS9GTcXFK08mx3gl/RRM8MVsr3qI6te0V5hTUsGMYMKo1QoyQRm9UlnkPmxohW/tc+p6FRG8YCpQ==");
-//    userLogin.setEmail("a@a.com");
-//    userLogin.setPassword("hi");
+    Call<HashMap<String, String>> call = apiService.signIn(params);
+    call.enqueue(new Callback<HashMap<String, String>>()
+                 {
+                   @Override
+                   public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response)
+                   {
 
-    final Call<List<UserLogin>> userLogInResponse = apiService.login();
+                     int statusCode = response.code();
+                     HashMap<String, String> body = response.body();
+                     Log.d(TAG,"hn,kjlhkuhj" );
+                     Log.d(TAG,"" + response.headers() + " " + response.code());
+                     if (response.isSuccessful())
+                     {
+                       Log.d(TAG, "code = " + Integer.toString(statusCode));
+                       Log.d(TAG, "auth_token = " + body.get("auth_token"));
+                       Log.d(TAG, "user_id = " + body.get("user_id"));
+//                       mUser.setAuthToken(body.get("auth_token"));
+//                       mUser.setEmail(email);
+                       Toast.makeText(getApplicationContext(), "Login successful!",Toast.LENGTH_SHORT).show();
+//                       startMainActivity();
+                     }
+                     else
+                     {
+                       Toast.makeText(getApplicationContext(), "Login failed: " + Integer.toString(statusCode), Toast.LENGTH_SHORT).show();
+                     }
+                   }
 
-    userLogInResponse.enqueue(new Callback<List<UserLogin>>()
-    {
-      @Override
-      public void onResponse(Call<List<UserLogin>> call, Response<List<UserLogin>> response)
-      {
-        int responseCode = response.code();
-        Log.d(TAG, "" + responseCode);
+                   @Override
+                   public void onFailure(Call<HashMap<String, String>> call, Throwable t)
+                   {
+                     Log.d(TAG, t.getLocalizedMessage());
+                   }
 
-//        userLogin
-      }
-
-      @Override
-      public void onFailure(Call<List<UserLogin>> call, Throwable t)
-      {
-
-      }
-    });
-
-
+                 });
 
 
 //    final Call<List<Item>> items = apiService.getAllItems();
