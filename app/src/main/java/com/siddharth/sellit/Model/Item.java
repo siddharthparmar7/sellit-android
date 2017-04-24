@@ -18,7 +18,7 @@ public class Item
   private String email;
   private String phone_number;
   private String location;
-  private Integer userId;
+  private Integer user_id;
   private String createdAt;
   private String updatedAt;
   private String url;
@@ -125,12 +125,12 @@ public class Item
 
   public Integer getUserId()
   {
-    return userId;
+    return user_id;
   }
 
-  public void setUserId(Integer userId)
+  public void setUserId(Integer user_id)
   {
-    this.userId = userId;
+    this.user_id = user_id;
   }
 
   public String getCreatedAt()

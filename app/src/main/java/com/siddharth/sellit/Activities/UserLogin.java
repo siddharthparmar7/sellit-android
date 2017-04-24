@@ -1,5 +1,6 @@
 package com.siddharth.sellit.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +30,9 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
   private TextView email;
   private TextView password;
   private Button sign_in;
-  private String TAG = "SIGN_IN";
+  private String TAG = "SIGN_IN/SIGN_OUT";
   private String FRAGMENT_TAG = "FRAGMENT_TAG";
+  ItemApiInterface apiService = null;
   public static User activeUser = new User();
 
   @Override
@@ -40,6 +42,7 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
     setContentView(R.layout.activity_user_login);
     email = (TextView) findViewById(R.id.editText_email);
     password = (TextView) findViewById(R.id.editText_password);
+    email.requestFocus();
     sign_in = (Button) findViewById(R.id.button_sign_in);
     sign_in.setOnClickListener(this);
   }
@@ -64,9 +67,16 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
     }
   }
 
+  @Override
+  public void onBackPressed()
+  {
+    // super.onBackPressed(); // Comment this super call to avoid calling finish()
+  }
+
+
   private void sign_in(String email, String password){
 
-    ItemApiInterface apiService = ItemRestService.getItemRestService();
+    apiService = ItemRestService.getItemRestService();
     HashMap<String,HashMap<String,String>> params = new HashMap<>();
     HashMap<String,String> credentials = new HashMap<>();
     credentials.put("email", email);
@@ -110,5 +120,39 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
       }
 
     });
+  }
+
+  public void sign_out(final Context context){
+    apiService = ItemRestService.getItemRestService();
+    Call<Void> call = apiService.signOut();
+    call.enqueue(new Callback<Void>()
+    {
+      @Override
+      public void onResponse(Call<Void> call, Response<Void> response)
+      {
+
+        int statusCode = response.code();
+        Log.d(TAG," signing out " + response.code());
+        if(statusCode == 200)
+        {
+          activeUser = null;
+          Intent intent = new Intent(context, UserLogin.class);
+          context.startActivity(intent);
+        }
+        else
+        {
+          Toast.makeText(context, "Opps, something went wrong status: " + statusCode, Toast.LENGTH_LONG).show();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<Void> call, Throwable t)
+      {
+        Log.d(TAG, t.getLocalizedMessage());
+        Toast.makeText(context, "Opps, something went wrong", Toast.LENGTH_LONG).show();
+      }
+
+    });
+
   }
 }

@@ -210,12 +210,24 @@ public class MainActivity extends AppCompatActivity
     } else if (id == R.id.nav_manage)
     {
 
-    } else if (id == R.id.nav_share)
+    } else if (id == R.id.sign_in)
     {
-
-    } else if (id == R.id.nav_send)
+      if(activeUser.isUser_logged_in())
+      {
+        Toast.makeText(this, "You are signed in as " + activeUser.getUser_email(), Toast.LENGTH_LONG).show();
+      }
+      else {
+      //    go to user login page
+        Intent intent = new Intent(this, UserLogin.class);
+        startActivity(intent);
+      }
+    } else if (id == R.id.sign_out)
     {
-
+      if(activeUser.isUser_logged_in())
+      {
+        UserLogin user = new UserLogin();
+        user.sign_out(MainActivity.this);
+      }
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -3,6 +3,8 @@ package com.siddharth.sellit.Network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.siddharth.sellit.Activities.MainActivity;
+import com.siddharth.sellit.Activities.UserLogin;
+import com.siddharth.sellit.Model.User;
 
 import java.io.IOException;
 
@@ -28,20 +30,24 @@ public class ItemRestService
 
   public static ItemApiInterface getItemRestService()
   {
+
+    final User activeUser = UserLogin.activeUser;
     if (apiService != null)
     {
       return apiService;
     }
 
-
-    // Define the interceptor, add authentication headers
-//    final String credential = Credentials.basic("a@a.com", "hi");
     Interceptor interceptor = new Interceptor()
     {
       @Override
       public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException
       {
-        return chain.proceed(chain.request().newBuilder().build());
+        if(activeUser.isUser_logged_in()){
+          return chain.proceed(chain.request().newBuilder().addHeader("Authorization", "Token token=" + activeUser.getAuth_token()).build());
+        }
+        else{
+          return chain.proceed(chain.request().newBuilder().build());
+        }
       }
     };
 

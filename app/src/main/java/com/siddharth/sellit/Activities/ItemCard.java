@@ -19,6 +19,7 @@ import com.siddharth.sellit.EventBus.Events;
 import com.siddharth.sellit.EventBus.GlobalBus;
 import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
+import com.siddharth.sellit.Model.User;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
 import com.siddharth.sellit.Network.MyPicaso;
@@ -41,10 +42,14 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   public static final String ID = "ID";
   public static final String POSITION = "POSITION";
   public static final int SHOW_ITEM = 1000;
-  public static final String TAG = "MY_DEBUG";
+  public static final String TAG = "ITEM CARD";
+  private User activeUser = UserLogin.activeUser;
+  private Item item = null;
 
   List<Item> itemList = MainActivity.itemList;
 
+  private int itemId;
+  private int itemPos;
   private ImageView image;
   private TextView title;
   private TextView description;
@@ -83,11 +88,13 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   public void getPositionNumber(Events.FragmentToActivityMessage fragmentToActivityMessage)
   {
     adapterPosition = fragmentToActivityMessage.getPosition();
-    putDetailsOnScreen(adapterPosition);
+    putDetailsOnScreen(adapterPosition, item);
   }
 
-  public void putDetailsOnScreen(int pos){
-    Item item = itemList.get(pos);
+  public void putDetailsOnScreen(int pos, Item item){
+    item = itemList.get(pos);
+    itemPos = pos;
+    itemId = item.getId();
     title.setText(item.getTitle());
     description.setText(item.getDescription());
     price.setText("" + item.getPrice());
@@ -96,9 +103,20 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
     phone.setText(item.getPhone_number());
     location.setText(item.getLocation());
 
-//    String imageUri = BASE_URL + itemList.get(pos).getImage();
+//    disable the buttons if user is not the author of the item
+    if(activeUser.getUser_id() != item.getUserId())
+    {
+//      disable it
+      delete.setEnabled(false);
+      update.setEnabled(false);
+//      hide it
+      delete.setVisibility(View.GONE);
+      update.setVisibility(View.GONE);
+    }
 
-//    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
+    String imageUri = ItemRestService.BASE_URL + itemList.get(pos).getImage();
+
+    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
   }
 
   @Override
@@ -116,39 +134,51 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   }
 
   @Override
-  public void onClick(View v)
+  public void onClick(View view)
   {
-    if(v.getId() == delete.getId())
+    if(view.getId() == delete.getId())
     {
-      ItemApiInterface apiService = ItemRestService.getItemRestService();
-
-
-      final Call<List<Item>> items = apiService.deleteItem();
-      items.enqueue(new Callback<List<Item>>()
-      {
-
-        @Override
-        public void onResponse(Call<List<Item>> call, Response<List<Item>> response)
-        {
-          int statusCode = response.code();
-          itemList = response.body();
-          Log.d("MYDEBUG", "" + statusCode);
-
-          if (response.isSuccessful())
-          {
-            Log.e(TAG, "SUCCESS !!! ");
-          }
-        }
-
-        @Override
-        public void onFailure(Call<List<Item>> call, Throwable t)
-        {
-          // Log error here since request failed
-          Log.e(TAG, "FAIL  = " + call.toString());
-          t.printStackTrace();
-          Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
-        }
-      });
+      deleteItem();
     }
+    else if(view.getId() == update.getId())
+    {
+      updateItem();
+    }
+  }
+
+  private void updateItem(){
+    Log.d(TAG, "here " + item.getTitle());
+    EventBus.getDefault().postSticky(new Events.ActivityToActivity(item));
+    Intent intent = new Intent(this, UpdateItem.class);
+    startActivity(intent);
+  }
+
+  private void deleteItem(){
+    ItemApiInterface apiService = ItemRestService.getItemRestService();
+    final Call<Void> items = apiService.deleteItem(itemId);
+    items.enqueue(new Callback<Void>()
+    {
+      @Override
+      public void onResponse(Call<Void> call, Response<Void> response)
+      {
+        int statusCode = response.code();
+        Log.d(TAG, "" + statusCode);
+        if (response.isSuccessful())
+        {
+          Log.e(TAG, "SUCCESS !!! ");
+          itemList.remove(itemPos);
+          Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+          getApplicationContext().startActivity(intent);
+        }
+      }
+      @Override
+      public void onFailure(Call<Void> call, Throwable t)
+      {
+        // Log error here since request failed
+        Log.e(TAG, "FAIL  = " + call.toString());
+        t.printStackTrace();
+        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
+      }
+    });
   }
 }

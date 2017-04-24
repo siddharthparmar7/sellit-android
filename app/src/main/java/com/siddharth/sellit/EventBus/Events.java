@@ -1,5 +1,7 @@
 package com.siddharth.sellit.EventBus;
 
+import com.siddharth.sellit.Model.Item;
+
 import java.util.List;
 
 /**
@@ -48,6 +50,25 @@ public class Events
     public ActivityToFragmentMessage(String msg)
     {
       this.msg = msg;
+    }
+  }
+
+  public static class ActivityToActivity
+  {
+    private Item item;
+    public ActivityToActivity(Item item)
+    {
+      this.item = item;
+    }
+
+    public Item getItem()
+    {
+      return item;
+    }
+
+    public void setItem(Item item)
+    {
+      this.item = item;
     }
   }
 }
