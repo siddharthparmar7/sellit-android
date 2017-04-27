@@ -76,7 +76,7 @@ public class FaceBookLogin extends AppCompatActivity
                   textView.setText(str);
                   Toast.makeText(getApplicationContext(), "Welcome " + name, Toast.LENGTH_LONG).show();
 
-//                  Intent intent = new Intent(getApplicationContext(), AddItem.class);
+//                  Intent intent = new Intent(getApplicationContext());
 //                  startActivity(intent);
 
                 } catch (JSONException e) {

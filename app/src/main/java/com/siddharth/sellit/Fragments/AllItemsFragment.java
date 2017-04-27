@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class AllItemsFragment extends Fragment
 {
-
+// declaring variables
   public static List<Item> itemList = MainActivity.itemList;
   private RecyclerView mAllItemsRecyclerView;
   private AllItemsAdapter itemsAdapter;
@@ -33,6 +33,7 @@ public class AllItemsFragment extends Fragment
   }
 
 
+//  call the recycler view to show all the items from the server
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState)

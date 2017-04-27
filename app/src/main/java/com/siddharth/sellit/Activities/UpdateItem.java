@@ -36,6 +36,8 @@ import retrofit2.Response;
 
 public class UpdateItem extends AppCompatActivity implements View.OnClickListener
 {
+
+//  delacring variables
   private String TAG = "UPDATE ACTIVITY";
 
   private EditText title;
@@ -74,6 +76,7 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
   @Override
   public void onClick(View v)
   {
+//    call update item
     if(v.getId() == update_item_button.getId())
     {
       if(!(title.getText().toString().isEmpty() || price.getText().toString().isEmpty() ||
@@ -93,6 +96,7 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
     }
   }
 
+//  update the item
   private void update_item(){
     ItemApiInterface apiService = ItemRestService.getItemRestService();
     HashMap<String, String> params = new HashMap<>();
@@ -132,6 +136,7 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
     });
   }
 
+  // event bus, get the item details and fill the form
   @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
   public void fill_details(Events.ActivityToActivity activityToActivity) {
     item = activityToActivity.getItem();

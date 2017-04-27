@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class CreateItem extends AppCompatActivity implements View.OnClickListener
 {
 
+//  declaring variables
   private User activeUser = UserLogin.activeUser;
   private List<Item> itemList = MainActivity.itemList;
   private Item newItem = new Item();
@@ -72,6 +73,7 @@ public class CreateItem extends AppCompatActivity implements View.OnClickListene
   @Override
   public void onClick(View v)
   {
+//    call the create item function
     if(v.getId() == createButton.getId())
     {
       if(!(title.getText().toString().isEmpty() || price.getText().toString().isEmpty() ||
@@ -96,6 +98,7 @@ public class CreateItem extends AppCompatActivity implements View.OnClickListene
     }
   }
 
+//  creating an item
   private void createItem()
   {
     ItemApiInterface apiService = ItemRestService.getItemRestService();

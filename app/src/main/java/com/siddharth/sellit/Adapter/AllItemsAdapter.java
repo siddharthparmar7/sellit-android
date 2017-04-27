@@ -33,6 +33,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHolder>
 {
+//  declaring variables
   private LayoutInflater inflater;
   private Context context;
   public List<Item> itemList;
@@ -52,6 +53,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
     return new ItemHolder(view);
   }
 
+//  fill the layout with item details
   @Override
   public void onBindViewHolder(ItemHolder holder, int position)
   {
@@ -68,6 +70,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
     return itemList.size();
   }
 
+//  get hold of all the items from the layout
   public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener
   {
     private TextView item_title;
@@ -89,6 +92,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ItemHo
       itemView.setOnClickListener(this);
     }
 
+//    if clicked on card, call the item card activity
     @Override
     public void onClick(View view)
     {

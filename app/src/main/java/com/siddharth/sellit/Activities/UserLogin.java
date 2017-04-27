@@ -27,6 +27,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UserLogin extends AppCompatActivity implements View.OnClickListener
 {
+//  declaring variables
   private TextView email;
   private TextView password;
   private Button sign_in;
@@ -59,6 +60,7 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
       {
         userEmail = email.getText().toString();
         userPassword = password.getText().toString();
+//        call user sign in function
         sign_in(userEmail, userPassword);
       }
       else{
@@ -73,7 +75,7 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
     // super.onBackPressed(); // Comment this super call to avoid calling finish()
   }
 
-
+//  user sign in
   private void sign_in(String email, String password){
 
     apiService = ItemRestService.getItemRestService();
@@ -123,6 +125,7 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
     });
   }
 
+//  user sign out
   public void sign_out(final Context context){
     apiService = ItemRestService.getItemRestService();
     Call<Void> call = apiService.signOut();

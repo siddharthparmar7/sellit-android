@@ -38,10 +38,6 @@
         </activity>
         <activity android:name=".Activities.FaceBookLogin">
         </activity>
-        <activity
-            android:name=".Activities.AddItem"
-            android:parentActivityName=".Activities.MainActivity">
-        </activity>
         <activity android:name=".Activities.UserLogin">
         </activity>
         <activity

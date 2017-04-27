@@ -29,16 +29,12 @@ public class MyPicaso
     if (sPicasso == null)
     {
 
-      // Define the interceptor, add authentication headers
-//      final String credential = Credentials.basic("a@a.com", "hi");
-
       Interceptor interceptor = new Interceptor()
       {
         @Override
         public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException
         {
           Request newRequest = chain.request().newBuilder()
-//              .header("Authorization", credential)
               .header("Accept", "application/json")
               .header("Accept", "image/*")
               .addHeader("User-Agent", "Picasso-2-FN")
