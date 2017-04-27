@@ -28,6 +28,7 @@ import com.siddharth.sellit.R;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +45,7 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   public static final int SHOW_ITEM = 1000;
   public static final String TAG = "ITEM CARD";
   private User activeUser = UserLogin.activeUser;
-  private Item item = null;
+  private Item item = new Item();
 
   List<Item> itemList = MainActivity.itemList;
 
@@ -88,13 +89,25 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   public void getPositionNumber(Events.FragmentToActivityMessage fragmentToActivityMessage)
   {
     adapterPosition = fragmentToActivityMessage.getPosition();
-    putDetailsOnScreen(adapterPosition, item);
+    getItem(adapterPosition);
   }
 
-  public void putDetailsOnScreen(int pos, Item item){
-    item = itemList.get(pos);
+  @Subscribe(sticky = true)
+  public void getUpdatedItem(Events.ActivityToActivity activityToActivity)
+  {
+    item = activityToActivity.getItem();
+    putItemsOnScreen(item);
+  }
+
+  public void getItem(int pos){
+    // call the item details from the server
+    getItemCard(itemList.get(pos).getId());
     itemPos = pos;
-    itemId = item.getId();
+  }
+
+
+  public void putItemsOnScreen(Item item){
+    //    item = itemList.get(pos);
     title.setText(item.getTitle());
     description.setText(item.getDescription());
     price.setText("" + item.getPrice());
@@ -114,7 +127,10 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
       update.setVisibility(View.GONE);
     }
 
-    String imageUri = ItemRestService.BASE_URL + itemList.get(pos).getImage();
+    String imageUri = ItemRestService.BASE_URL + item.getImage();
+    Log.d(TAG, imageUri);
+    Log.d(TAG, item.getImage());
+    Log.d(TAG, item.getUrl());
 
     MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
   }
@@ -138,7 +154,7 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
   {
     if(view.getId() == delete.getId())
     {
-      deleteItem();
+      deleteItem(itemId);
     }
     else if(view.getId() == update.getId())
     {
@@ -146,16 +162,50 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
     }
   }
 
+  private void getItemCard(int getItemWithId){
+    ItemApiInterface apiService = ItemRestService.getItemRestService();
+    final Call<Item> item = apiService.getItem(getItemWithId);
+    item.enqueue(new Callback<Item>()
+    {
+      @Override
+      public void onResponse(Call<Item> call, Response<Item> response)
+      {
+        int statusCode = response.code();
+        Log.d(TAG, "" + statusCode);
+        Log.d(TAG, "" + response.body());
+
+        if (response.isSuccessful())
+        {
+          Log.e(TAG, "SUCCESS !!! got the item card ");
+          Item item = new Item();
+          item = response.body();
+          itemId = item.getId();
+          EventBus.getDefault().postSticky(new Events.ActivityToActivity(item));
+          putItemsOnScreen(item);
+        }
+      }
+
+      @Override
+      public void onFailure(Call<Item> call, Throwable t)
+      {
+        // Log error here since request failed
+        Log.e(TAG, "FAIL  = " + call.toString());
+        Log.e(TAG, "message " + t.getLocalizedMessage());
+        t.printStackTrace();
+        Toast.makeText(getApplicationContext(), "Check your network connection", Toast.LENGTH_LONG).show();
+      }
+    });
+  }
+
   private void updateItem(){
-    Log.d(TAG, "here " + item.getTitle());
-    EventBus.getDefault().postSticky(new Events.ActivityToActivity(item));
+//    EventBus.getDefault().postSticky(new Events.ActivityToActivity(item));
     Intent intent = new Intent(this, UpdateItem.class);
     startActivity(intent);
   }
 
-  private void deleteItem(){
+  private void deleteItem(int deleteItemWithId){
     ItemApiInterface apiService = ItemRestService.getItemRestService();
-    final Call<Void> items = apiService.deleteItem(itemId);
+    final Call<Void> items = apiService.deleteItem(deleteItemWithId);
     items.enqueue(new Callback<Void>()
     {
       @Override
@@ -166,9 +216,11 @@ public class ItemCard extends AppCompatActivity implements View.OnClickListener
         if (response.isSuccessful())
         {
           Log.e(TAG, "SUCCESS !!! ");
-          itemList.remove(itemPos);
           Intent intent = new Intent(getApplicationContext(), MainActivity.class);
           getApplicationContext().startActivity(intent);
+        }
+        else{
+          Toast.makeText(getApplicationContext(), "Oh-oh, Can not delete the item. Try again later", Toast.LENGTH_LONG).show();
         }
       }
       @Override

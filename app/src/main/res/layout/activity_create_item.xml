@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.siddharth.sellit.Activities.CreateItem">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/imageCard">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imageView_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="fitCenter"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    app:srcCompat="@drawable/ic_menu_camera"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_details"
+            android:layout_below="@id/imageCard"
+            android:layout_margin="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_status"
+                    android:layout_marginStart="20dp"
+                    android:text="Sold?"/>
+
+                <EditText
+                    android:id="@+id/edit_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_status"
+                    android:layout_marginStart="20dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:hint="Title"/>
+
+                <EditText
+                    android:id="@+id/edit_description"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_title"
+                    android:layout_alignStart="@+id/edit_title"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:hint="Description"/>
+
+                <EditText
+                    android:id="@+id/edit_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:layout_below="@id/edit_description"
+                    android:layout_marginTop="10dp"
+                    android:hint="Books"/>
+
+                <EditText
+                    android:id="@+id/edit_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_category"
+                    android:ems="10"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:inputType="numberDecimal"
+                    android:hint="100.99 CAD"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/item_contact"
+            android:layout_below="@id/item_details">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/edit_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:layout_alignParentTop="true"
+                    android:hint="a@a.com"/>
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_email"
+                    android:layout_alignStart="@+id/edit_email"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:hint="250-987-0789"/>
+
+                <EditText
+                    android:id="@+id/edit_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:layout_below="@id/edit_phone_number"
+                    android:layout_marginStart="20dp"
+                    android:hint="Location: Comox"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/create_item_button"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="65dp"
+            android:layout_marginRight="65dp"
+            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_contact"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Create"/>
+
+    </RelativeLayout>
+</ScrollView>

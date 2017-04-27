@@ -44,6 +44,12 @@ public interface ItemApiInterface
   @POST("api/items/{itemId}")
   Call<HashMap<String, String>> updateItem(@Body HashMap<String, String> params, @Path(value = "itemId") int itemId);
 
+  @POST("api/items/create")
+  Call<HashMap<String, String>> createItem(@Body HashMap<String, String> params);
+
+  @GET("items/{itemId}.json")
+  Call<Item> getItem(@Path(value = "itemId") int itemId);
+
   @DELETE("api/items/{itemId}")
   Call<Void> deleteItem(@Path(value = "itemId") int itemId);
 //

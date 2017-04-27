@@ -166,6 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_location_textView"
                     android:layout_marginStart="40dp"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="Delete"/>
 
                 <Button
@@ -174,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_location_textView"
                     android:layout_marginStart="200dp"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="update"/>
 
             </RelativeLayout>

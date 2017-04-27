@@ -2,7 +2,6 @@ package com.siddharth.sellit.Activities;
 
 import android.content.Intent;
 import android.media.Image;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,22 +10,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.siddharth.sellit.EventBus.Events;
-import com.siddharth.sellit.Fragments.AllItemsFragment;
 import com.siddharth.sellit.Model.Item;
+import com.siddharth.sellit.Model.User;
 import com.siddharth.sellit.Network.ItemApiInterface;
 import com.siddharth.sellit.Network.ItemRestService;
-import com.siddharth.sellit.Network.MyPicaso;
 import com.siddharth.sellit.R;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import java.nio.channels.ClosedByInterruptException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,66 +28,76 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpdateItem extends AppCompatActivity implements View.OnClickListener
+public class CreateItem extends AppCompatActivity implements View.OnClickListener
 {
-  private String TAG = "UPDATE ACTIVITY";
+
+  private User activeUser = UserLogin.activeUser;
+  private List<Item> itemList = MainActivity.itemList;
+  private Item newItem = new Item();
+
+  private String TAG = "CREATE ITEM";
 
   private EditText title;
-  private EditText description;
   private EditText price;
+  private EditText description;
+  private EditText location;
   private EditText category;
   private EditText email;
   private EditText phone;
   private CheckBox status;
-  private EditText location;
   private ImageView image;
 
-  private Item item;
+  private Button createButton;
 
-  private Button update_item_button;
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_update_item);
+    setContentView(R.layout.activity_create_item);
 
     title = (EditText) findViewById(R.id.edit_title);
-    description = (EditText) findViewById(R.id.edit_description);
     price = (EditText) findViewById(R.id.edit_price);
+    description = (EditText) findViewById(R.id.edit_description);
+    location = (EditText) findViewById(R.id.edit_location);
     category = (EditText) findViewById(R.id.edit_category);
     email = (EditText) findViewById(R.id.edit_email);
     phone = (EditText) findViewById(R.id.edit_phone_number);
-    status = (CheckBox) findViewById(R.id.edit_status);
-    location = (EditText) findViewById(R.id.edit_location);
+    status = (CheckBox)  findViewById(R.id.edit_status);
     image = (ImageView) findViewById(R.id.imageView_item);
 
-    update_item_button = (Button) findViewById(R.id.update_item);
-    update_item_button.setOnClickListener(this);
+    createButton = (Button) findViewById(R.id.create_item_button);
+    createButton.setOnClickListener(this);
   }
 
   @Override
   public void onClick(View v)
   {
-    if(v.getId() == update_item_button.getId())
+    if(v.getId() == createButton.getId())
     {
       if(!(title.getText().toString().isEmpty() || price.getText().toString().isEmpty() ||
           category.getText().toString().isEmpty() || location.getText().toString().isEmpty() ||
           description.getText().toString().isEmpty()))
       {
-        item.setTitle(title.getText().toString());
-        item.setPrice(Double.parseDouble(price.getText().toString()));
-        item.setCategory(category.getText().toString());
-        item.setDescription(description.getText().toString());
-        item.setEmail(email.getText().toString());
-        item.setPhone_number(phone.getText().toString());
-        item.setLocation(location.getText().toString());
-        item.setStatus(status.isChecked());
-        update_item();
+//        append the new item to the item list
+        newItem.setTitle(title.getText().toString());
+        newItem.setPhone_number(phone.getText().toString());
+        newItem.setPrice(Double.parseDouble(price.getText().toString()));
+        newItem.setCategory(category.getText().toString());
+        newItem.setEmail(email.getText().toString());
+        newItem.setLocation(location.getText().toString());
+        newItem.setDescription(description.getText().toString());
+        newItem.setStatus(status.isChecked());
+//        itemList.add(newItem);
+        createItem();
+      }
+      else{
+        Toast.makeText(getApplicationContext(),"Did you fill in all the fields?", Toast.LENGTH_LONG).show();
       }
     }
   }
 
-  private void update_item(){
+  private void createItem()
+  {
     ItemApiInterface apiService = ItemRestService.getItemRestService();
     HashMap<String, String> params = new HashMap<>();
     params.put("title", title.getText().toString());
@@ -104,8 +108,9 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
     params.put("email", email.getText().toString());
     params.put("phone_number", phone.getText().toString());
     params.put("location", location.getText().toString());
+    params.put("user_id", "" + activeUser.getUser_id());
 
-    Call<HashMap<String, String>> call = apiService.updateItem(params, item.getId());
+    Call<HashMap<String, String>> call = apiService.createItem(params);
     call.enqueue(new Callback<HashMap<String, String>>()
     {
 
@@ -113,13 +118,16 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
       public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response)
       {
         int statusCode = response.code();
-//        Log.d(TAG, "" + statusCode);
+        Log.d(TAG, "" + statusCode);
         HashMap<String, String> body = response.body();
         if(response.isSuccessful())
         {
-          EventBus.getDefault().postSticky(new Events.ActivityToActivity(item));
-          Intent intent = new Intent(getApplicationContext(), ItemCard.class);
+//          EventBus.getDefault().postSticky(new Events.ActivityToActivity(newItem));
+          Intent intent = new Intent(getApplicationContext(), MainActivity.class);
           getApplicationContext().startActivity(intent);
+        }
+        else{
+          Toast.makeText(getApplicationContext(), "opps! looks like you are not getting correct response", Toast.LENGTH_LONG).show();
         }
       }
 
@@ -130,37 +138,5 @@ public class UpdateItem extends AppCompatActivity implements View.OnClickListene
         Toast.makeText(getApplicationContext(), "opps! something went wrong " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
       }
     });
-  }
-
-  @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-  public void fill_details(Events.ActivityToActivity activityToActivity) {
-    item = activityToActivity.getItem();
-    title.setText(item.getTitle());
-    description.setText(item.getDescription());
-    category.setText(item.getCategory());
-    email.setText(item.getEmail());
-    phone.setText(item.getPhone_number());
-    price.setText("" + item.getPrice());
-    status.setChecked(item.getStatus());
-    location.setText(item.getLocation());
-
-//    download the image
-    String imageUri = ItemRestService.BASE_URL + item.getImage();
-//    Log.d("Image URL ", imageUri);
-    MyPicaso.getImageLoader(getApplicationContext()).load(imageUri).resize(250, 250).error(R.drawable.ic_menu_camera).into(image);
-  }
-
-  @Override
-  public void onResume()
-  {
-    super.onResume();
-    EventBus.getDefault().register(this);
-  }
-
-  @Override
-  public void onPause()
-  {
-    super.onPause();
-    EventBus.getDefault().unregister(this);
   }
 }

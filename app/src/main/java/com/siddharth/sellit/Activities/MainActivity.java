@@ -59,11 +59,7 @@ public class MainActivity extends AppCompatActivity
 //    initialize the call back manager
     callbackManager = CallbackManager.Factory.create();
 
-
-
     setContentView(R.layout.activity_main);
-
-
     textView = (TextView) findViewById(R.id.textView);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,12 +71,9 @@ public class MainActivity extends AppCompatActivity
       @Override
       public void onClick(View view)
       {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null).show();
-
-        Intent intent = new Intent(getApplicationContext(), FaceBookLogin.class);
+//        create a new Item
+        Intent intent = new Intent(getApplicationContext(), CreateItem.class);
         startActivity(intent);
-
       }
     });
 
@@ -94,7 +87,6 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
 
     // download all items from the server
-
     if(activeUser.isUser_logged_in())
     {
 //      start the fragment and show the items
@@ -198,17 +190,14 @@ public class MainActivity extends AppCompatActivity
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    if (id == R.id.nav_camera)
+    if (id == R.id.show_all_items_nav)
     {
-      // Handle the camera action
-    } else if (id == R.id.nav_gallery)
+      Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+      getApplicationContext().startActivity(intent);
+    } else if (id == R.id.create_item_nav)
     {
-
-    } else if (id == R.id.nav_slideshow)
-    {
-
-    } else if (id == R.id.nav_manage)
-    {
+      Intent intent = new Intent(getApplicationContext(), CreateItem.class);
+      getApplicationContext().startActivity(intent);
 
     } else if (id == R.id.sign_in)
     {

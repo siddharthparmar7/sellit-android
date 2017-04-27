@@ -117,6 +117,7 @@ public class UserLogin extends AppCompatActivity implements View.OnClickListener
       public void onFailure(Call<HashMap<String, String>> call, Throwable t)
       {
         Log.d(TAG, t.getLocalizedMessage());
+        Toast.makeText(getApplicationContext(), "opps!, something went wrong", Toast.LENGTH_LONG).show();
       }
 
     });

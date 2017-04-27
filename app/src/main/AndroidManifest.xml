@@ -44,8 +44,12 @@
         </activity>
         <activity android:name=".Activities.UserLogin">
         </activity>
-        <activity android:name=".Activities.UpdateItem"
+        <activity
+            android:name=".Activities.UpdateItem"
             android:parentActivityName=".Activities.ItemCard">
+        </activity>
+        <activity android:name=".Activities.CreateItem"
+            android:parentActivityName=".Activities.MainActivity">
         </activity>
     </application>
 
