@@ -32,6 +32,7 @@ public interface ItemApiInterface
 
 //  API calls
 
+//  @GET("api/items.json")
   @GET("items.json")
   Call<List<Item>> getAllItems();
 
